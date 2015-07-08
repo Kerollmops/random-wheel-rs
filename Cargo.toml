@@ -1,10 +1,11 @@
 [package]
 name = "random-wheel"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Kerosene2000 <renault.cle@gmail.com>"]
 description = "A little implementation of random wheels (used in genetic algorithm for selection)"
 license = "AML"
 repository = "https://github.com/Kerosene2000/random-wheel-rs"
 
 [dependencies]
+linked-list = "0.0.3"
 rand = "0.3"
