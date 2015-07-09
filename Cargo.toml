@@ -1,6 +1,6 @@
 [package]
 name = "random-wheel"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Kerosene2000 <renault.cle@gmail.com>"]
 description = "A little implementation of random wheels (used in genetic algorithm for selection)"
 license = "AML"

@@ -17,8 +17,8 @@ use self::rand::{thread_rng, Rng};
 
 pub struct RandomWheel<'a, T: 'a> {
 
-	sum_proba: usize,
-	cards: LinkedList<(usize, &'a T)>
+	sum_proba: f32,
+	cards: LinkedList<(f32, &'a T)>
 }
 
 impl<'a, T: 'a> RandomWheel<'a, T> {
@@ -26,21 +26,13 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 	pub fn new() -> RandomWheel<'a, T> {
 
 		RandomWheel{
-			sum_proba: 0,
+			sum_proba: 0.,
 			cards: LinkedList::new()
 		}
 	}
 
-/*	pub fn with_capacity(capacity: usize) -> RandomWheel<'a, T> {
-
-		RandomWheel{
-			sum_proba: 0,
-			cards: LinkedList::with_capacity(capacity)
-		}
-	}*/
-
 	/// add an element associated with a probability
-	pub fn push(&mut self, proba: usize, data: &'a T) {
+	pub fn push(&mut self, proba: f32, data: &'a T) {
 
 		// can do: if even then push back, else push_front
 		self.cards.push_back((proba, data));
@@ -48,14 +40,14 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 	}
 
 	/// return total of luck you add with push
-	pub fn sum_proba(&self) -> usize {
+	pub fn sum_proba(&self) -> f32 {
 
 		self.sum_proba
 	}
 
-	fn gen_dist(&self) -> usize {
+	fn gen_dist(&self) -> f32 {
 
-		rand::thread_rng().gen_range(0, self.sum_proba())
+		rand::thread_rng().gen_range(0., self.sum_proba())
 	}
 
 	/// return a ref to the randomly peeked element
@@ -65,7 +57,7 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 		for &(proba, data) in self.cards.iter() {
 
 			rand -= proba;
-			if rand == 0 {
+			if rand == 0. {
 				return Some(data);
 			}
 		}
@@ -80,7 +72,7 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 		for (index, &(proba, _)) in self.cards.iter().enumerate() {
 
 			rand -= proba;
-			if rand == 0 {
+			if rand == 0. {
 				chosen_id = Some(index);
 				break;
 			}
