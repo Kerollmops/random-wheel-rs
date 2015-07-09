@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/08 23:28:12 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/09 14:32:48 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 		for &(proba, data) in self.cards.iter() {
 
 			rand -= proba;
-			if rand == 0. {
+			if rand <= 0. {
 				return Some(data);
 			}
 		}
@@ -72,7 +72,7 @@ impl<'a, T: 'a> RandomWheel<'a, T> {
 		for (index, &(proba, _)) in self.cards.iter().enumerate() {
 
 			rand -= proba;
-			if rand == 0. {
+			if rand <= 0. {
 				chosen_id = Some(index);
 				break;
 			}
