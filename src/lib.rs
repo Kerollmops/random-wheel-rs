@@ -12,7 +12,7 @@
 
 pub mod random_wheel;
 
-use random_wheel::RandomWheel;
+pub use random_wheel::RandomWheel;
 
 #[test]
 fn peek_and_pop_to_empty() {
