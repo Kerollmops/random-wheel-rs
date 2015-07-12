@@ -6,12 +6,11 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/12 18:03:09 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/12 18:49:37 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 pub mod random_wheel;
-
 pub use random_wheel::RandomWheel;
 
 #[test]

@@ -6,9 +6,37 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/09 14:32:48 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/12 19:01:34 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
+//!
+//! # Examples
+//!
+//! You can explicitly create a `RandomWheel<T>` with `new()`:
+//!
+//! ```
+//! let rw: RandomWheel<i32> = RandomWheel::new();
+//! ```
+//!
+//! You can `push` values onto the random-wheel (which will grow the wheel as needed):
+//!
+//! Popping values works in much the same way:
+//!
+//! ```
+//! let one = 1;
+//! let two = 2;
+//! {
+//!     let mut rw = RandomWheel::new();
+//!
+//!     rw.push(&one);
+//!     rw.push(&two);
+//!
+//!     let one_or_two = v.pop();
+//! }
+//! ```
+//!
 
 extern crate rand;
 extern crate linked_list;
@@ -23,12 +51,19 @@ pub struct RandomWheel<'a, T: 'a> {
 
 impl<'a, T: 'a> RandomWheel<'a, T> {
 
+	/// create a new empty random-wheel
 	pub fn new() -> RandomWheel<'a, T> {
 
 		RandomWheel{
 			sum_proba: 0.,
 			cards: LinkedList::new()
 		}
+	}
+
+	/// Returns the number of elements in the wheel.
+	pub fn len(&self) -> usize {
+
+		self.cards.len()
 	}
 
 	/// add an element associated with a probability
