@@ -20,9 +20,8 @@ chmod 600 ~/.ssh/id_rsa
 
 git clone --branch gh-pages git@github.com:$DOCS_REPO deploy_docs
 
-cargo doc
-
 cd deploy_docs
+cargo doc --verbose
 git config user.name "doc upload bot"
 git config user.email "nobody@example.com"
 rm -rf $PROJECT_NAME
