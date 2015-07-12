@@ -6,37 +6,39 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/12 19:04:22 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/12 22:35:00 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
-!
-! # Examples
-!
-! You can explicitly create a `RandomWheel<T>` with `new()`:
-!
-! ```
-! let rw: RandomWheel<i32> = RandomWheel::new();
-! ```
-!
-! You can `push` values onto the random-wheel (which will grow the wheel as needed):
-!
-! Popping values works in much the same way:
-!
-! ```
-! let one = 1;
-! let two = 2;
-! {
-!     let mut rw = RandomWheel::new();
-!
-!     rw.push(&one);
-!     rw.push(&two);
-!
-!     let one_or_two = rw.pop();
-! }
-! ```
-!*/
+/*
+A Little implementation of the random-wheel principle, `RandomWheel<T>`.
+
+# Examples
+
+You can explicitly create a `RandomWheel<T>` with `new()`:
+
+```
+let rw: RandomWheel<i32> = RandomWheel::new();
+```
+
+You can `push` values onto the random-wheel (which will grow the wheel as needed):
+
+Popping values works in much the same way:
+
+```
+let one = 1;
+let two = 2;
+{
+    let mut rw = RandomWheel::new();
+
+    rw.push(&one);
+    rw.push(&two);
+
+    let one_or_two = rw.pop();
+}
+```
+
+*/
 
 extern crate rand;
 extern crate linked_list;
