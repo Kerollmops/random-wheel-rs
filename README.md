@@ -1,3 +1,5 @@
+![build image](https://travis-ci.org/Kerosene2000/random-wheel-rs.svg?branch=master)
+
 # random-wheel-rs
 A little implementation of random wheels (used in genetic algorithm for selection)
 
