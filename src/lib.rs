@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-pub mod random_wheel;
+mod random_wheel;
 pub use random_wheel::RandomWheel;
 
 #[test]
@@ -21,9 +21,9 @@ fn peek_and_pop_to_empty() {
 		let mut wheel = RandomWheel::new();
 		wheel.push(1., &a);
 
-		assert!(wheel.peek() == Some(&a));
-		assert!(wheel.pop() == Some(&a));
-		assert!(wheel.pop() == None);
+		assert_eq!(wheel.peek(), Some(&a));
+		assert_eq!(wheel.pop(), Some(&a));
+		assert_eq!(wheel.pop(), None);
 	}
 }
 
