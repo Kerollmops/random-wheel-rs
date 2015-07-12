@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/09 14:39:41 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/12 18:03:09 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,6 @@ fn peek_and_pop_to_empty() {
 fn check_probability() {
 
 	let numbers: Vec<_> = (0..100).collect();
+
+	//
 }
