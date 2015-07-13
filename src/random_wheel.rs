@@ -6,39 +6,9 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 19:34:19 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/13 19:50:18 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-A Little implementation of the random-wheel principle, `RandomWheel<T>`.
-
-# Examples
-
-You can explicitly create a `RandomWheel<T>` with `new()`:
-
-```
-let rw: RandomWheel<i32> = RandomWheel::new();
-```
-
-You can `push` values onto the random-wheel (which will grow the wheel as needed):
-
-Popping values works in much the same way:
-
-```
-let one = 1;
-let two = 2;
-{
-    let mut rw = RandomWheel::new();
-
-    rw.push(&one);
-    rw.push(&two);
-
-    let one_or_two = rw.pop();
-}
-```
-
-*/
 
 extern crate rand;
 extern crate linked_list;
@@ -47,7 +17,9 @@ use self::rand::{thread_rng, Rng};
 
 pub struct RandomWheel<T> {
 
+    /// the sum of all probabilities added
     sum_proba: f32,
+    /// all the (probability, data) in a linked-list to pop easily
     cards: LinkedList<(f32, T)>
 }
 
@@ -85,7 +57,12 @@ impl<T> RandomWheel<T> {
     /// return a random distance to browser between 0 and the probabilities sum
     fn gen_random_dist(&self) -> f32 {
 
-        rand::thread_rng().gen_range(0., self.sum_proba())
+        if self.sum_proba() > 0. {
+            rand::thread_rng().gen_range(0., self.sum_proba())
+        }
+        else {
+            0.
+        }
     }
 
     /// return a ref to the randomly peeked element
@@ -122,7 +99,8 @@ impl<T> RandomWheel<T> {
         }
         // return and remove data
         if let Some(id) = chosen_id {
-            if let Some((_, data)) = self.cards.remove(id) {
+            if let Some((proba, data)) = self.cards.remove(id) {
+                self.sum_proba -= proba;
                 Some(data)
             }
             else { None }
