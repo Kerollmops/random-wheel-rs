@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 00:33:03 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 00:42:59 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,17 @@ impl<T> RandomWheel<T> {
     }
 
     /// Removes a randomly peeked element and return it
+    // !!!!!! don't forget sum_proba decrementation !!!!!!
     pub fn pop(&mut self) -> Option<T> {
         if self.len() == 0 {
             None
         }
         else {
-            if let Some(ref pack) = self.get_pack() {
-                let &&Pack{ ref data, .. } = pack;
-                self.cards.remove(&pack);
-                //return Some(*data);
+            if let Some(pack) = self.get_pack() {
+                let &Pack{ ref data, ref proba } = pack;
+                //self.cards.remove(&pack);
+                //self.sum_proba -= *proba;
+                //Some(*data)
                 None
             }
             else { None }

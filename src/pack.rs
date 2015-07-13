@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/13 23:13:08 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 23:15:21 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 00:39:40 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ pub struct Pack<T> {
 }
 
 impl<T> Pack<T> {
-	pub fn new(proba: f32, data: T) -> Pack<T> {
-		Pack{ proba: proba, data: data }
-	}
+    pub fn new(proba: f32, data: T) -> Pack<T> {
+        Pack{ proba: proba, data: data }
+    }
 }
 
 impl<T> PartialEq for Pack<T> {
