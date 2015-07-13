@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 19:17:23 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/13 19:28:36 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ impl<T> RandomWheel<T> {
 	pub fn peek(&self) -> Option<&T> {
 
 		if self.len() == 0 {
+			None
+		}
+		else {
 			let mut dist = self.gen_random_dist();
 			for &(proba, ref data) in self.cards.iter() {
 
@@ -102,36 +105,24 @@ impl<T> RandomWheel<T> {
 			}
 			None
 		}
-		else { None }
-	}
-
-	/// return a random moved cursor of an element in the linked-list
-	/// you can use `peek_prev() -> Option<&mut T>` to get the value
-	/// or `remove() -> Option<T>` to remove and get the value
-	fn get_random_cursor(&mut self) -> Option<linked_list::Cursor<(f32, T)>> {
-
-		if self.len() == 0 {
-			None
-		}
-		else {
-			let mut dist = self.gen_random_dist();
-			let mut cursor = self.cards.cursor();
-			loop {
-				if let Some(&mut (proba, _)) = cursor.next() {
-					dist -= proba;
-					if dist <= 0. { return Some(cursor); }
-				}
-				else { break; }
-			}
-			None
-		}
 	}
 
 	/// Removes a randomly peeked element and return it
 	pub fn pop(&mut self) -> Option<T> {
 
-		if let Some(mut cursor) = self.get_random_cursor() {
-			if let Some((_, data)) = cursor.remove() {
+		let mut dist = self.gen_random_dist();
+		let mut chosen_id = None;
+		for (index, &(proba, _)) in self.cards.iter().enumerate() {
+
+			dist -= proba;
+			if dist <= 0. {
+				chosen_id = Some(index);
+				break;
+			}
+		}
+		// return and remove data
+		if let Some(id) = chosen_id {
+			if let Some((_, data)) = self.cards.remove(id) {
 				Some(data)
 			}
 			else { None }
