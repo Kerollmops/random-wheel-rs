@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 19:52:56 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/13 19:55:57 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@
 //!
 //! let mut rw = RandomWheel::new();
 //!
-//! rw.push(1., one);
-//! rw.push(2., two);
+//! rw.push(5., one);
+//! rw.push(1., two);
 //!
+//! // you get 5 on 6 luck to get one
 //! let one_or_two = rw.pop();
 //!
 //! ```
