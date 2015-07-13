@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 19:59:31 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/13 23:18:45 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 //!
 //! ```
 
+mod pack;
 mod random_wheel;
 pub use random_wheel::RandomWheel;
 

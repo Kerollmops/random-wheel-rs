@@ -8,5 +8,4 @@ license = "AML"
 repository = "https://github.com/Kerosene2000/random-wheel-rs"
 
 [dependencies]
-linked-list = "0.0.3"
 rand = "0.3"
