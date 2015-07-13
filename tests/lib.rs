@@ -6,9 +6,9 @@ use random_wheel::*;
 fn peek_and_pop_to_empty() {
 	let a = 20;
 	let mut wheel = RandomWheel::new();
-	wheel.push(1., &a);
+	wheel.push(1., a);
 
 	assert_eq!(wheel.peek(), Some(&a));
-	assert_eq!(wheel.pop(), Some(&a));
+	assert_eq!(wheel.pop(), Some(a));
 	assert_eq!(wheel.pop(), None);
 }
