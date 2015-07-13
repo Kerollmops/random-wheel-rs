@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/13 23:48:08 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 00:33:03 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,37 @@ impl<T> RandomWheel<T> {
         }
     }
 
-    /// Removes a randomly peeked element and return it
-    pub fn pop(&mut self) -> Option<T> {
-        /*if self.len() == 0 {
+    // get a random pack from the BTreeSet
+    fn get_pack(&mut self) -> Option<&Pack<T>> {
+        if self.len() == 0 {
             None
         }
         else {
             let mut dist = self.gen_random_dist();
-            let mut to_ret_del = None;
-            for &pack in self.cards.iter() {
-                let Pack{ ref proba, .. } = pack;
+            for pack in &self.cards {
+                let &Pack{ ref proba, .. } = pack;
                 dist -= *proba;
                 if dist <= 0. {
-                    to_ret_del = Some(pack);
-                    break;
+                    return Some(pack);
                 }
             }
-            if let Some(pack) = to_ret_del {
-                let Pack{ ref data, .. } = pack;
-                self.cards.remove(&pack);
-                return Some(*data);
-            }
             None
-        }*/
-        None
+        }
+    }
+
+    /// Removes a randomly peeked element and return it
+    pub fn pop(&mut self) -> Option<T> {
+        if self.len() == 0 {
+            None
+        }
+        else {
+            if let Some(ref pack) = self.get_pack() {
+                let &&Pack{ ref data, .. } = pack;
+                self.cards.remove(&pack);
+                //return Some(*data);
+                None
+            }
+            else { None }
+        }
     }
 }
