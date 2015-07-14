@@ -42,6 +42,8 @@
 //!
 //! ```
 
+extern crate rand;
+
 mod pack;
 mod random_wheel;
 pub use random_wheel::RandomWheel;
