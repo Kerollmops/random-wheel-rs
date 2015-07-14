@@ -6,13 +6,15 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 22:02:31 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 22:45:40 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 extern crate rand;
 use std::collections::VecDeque;
-use self::rand::{thread_rng, Rng};
+use std::cmp::{ Ordering };
+use self::rand::{ thread_rng, Rng };
+use std::hash::{ Hash, Hasher };
 
 /// a little implementation of a random-wheel.
 pub struct RandomWheel<T> {
@@ -20,6 +22,48 @@ pub struct RandomWheel<T> {
     proba_sum: f32,
     /// all the (probability, data) in a linked-list to pop easily.
     cards: VecDeque<(f32, T)>
+}
+
+impl<T: Clone> Clone for RandomWheel<T> {
+    fn clone(&self) -> RandomWheel<T> {
+        RandomWheel{
+            proba_sum: self.proba_sum,
+            cards: self.cards.clone()
+        }
+    }
+}
+
+impl<T> Default for RandomWheel<T> {
+    fn default() -> RandomWheel<T> { RandomWheel::new() }
+}
+
+impl<T: PartialEq> PartialEq<RandomWheel<T>> for RandomWheel<T> {
+    fn eq(&self, other: &RandomWheel<T>) -> bool {
+        self.proba_sum == other.proba_sum && self.cards == other.cards
+    }
+}
+
+impl<T: Eq> Eq for RandomWheel<T> {}
+
+impl<T: PartialOrd> PartialOrd<RandomWheel<T>> for RandomWheel<T> {
+    fn partial_cmp(&self, other: &RandomWheel<T>) -> Option<Ordering> {
+        self.cards.partial_cmp(&other.cards)
+    }
+}
+
+// TODO
+impl<T: Ord> Ord for RandomWheel<T> {
+    fn cmp(&self, other: &RandomWheel<T>) -> Ordering {
+        //self.cards.cmp(&other.cards)
+        Ordering::Equal
+    }
+}
+
+// TODO
+impl<T: Hash> Hash for RandomWheel<T> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        //self.cards.hash(state);
+    }
 }
 
 impl<T> RandomWheel<T> {

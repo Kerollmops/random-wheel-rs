@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/13 19:29:19 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 18:23:36 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 22:51:21 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,23 @@ fn proba_sum() {
     wheel.push(5.5, 0);
     assert_eq!(wheel.proba_sum(), 11.5);
 }
+
+/*
+// no clone struct
+#[derive(PartialEq, Eq, Debug)] // for assert!
+struct NoClone {
+    field: i32
+}
+
+// not properly working without clone
+#[test]
+fn no_clone_implement() {
+    let mut wheel = RandomWheel::new();
+
+    let noclone = NoClone{ field: 3 };
+    wheel.push(1., noclone);
+    assert_eq!(wheel.peek(), Some(&noclone));
+    assert_eq!(wheel.pop(), Some(noclone));
+    assert_eq!(wheel.pop(), None);
+}
+*/
