@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 18:24:24 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 18:57:51 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ pub struct RandomWheel<T> {
 
 impl<T> RandomWheel<T> {
     /// create a new empty random-wheel.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let rw: RandomWheel<i32> = RandomWheel::new();
+    /// ```
     pub fn new() -> RandomWheel<T> {
         RandomWheel{
             proba_sum: 0.,
@@ -33,6 +40,16 @@ impl<T> RandomWheel<T> {
     }
 
     /// Creates an empty RandomWheel with space for at least n elements.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let numbers: Vec<_> = (0..20).collect();
+    /// let mut rw: RandomWheel<i32> = RandomWheel::with_capacity(numbers.len());
+    ///
+    /// assert_eq!(rw.len(), 0);
+    /// ```
     pub fn with_capacity(n: usize) -> RandomWheel<T> {
         RandomWheel{
             proba_sum: 0.,
@@ -42,31 +59,110 @@ impl<T> RandomWheel<T> {
 
     /// Reserves capacity for at least `additional` more elements to be inserted in the given `Ringbuf`.
     /// The collection may reserve more space to avoid frequent reallocations.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw: RandomWheel<i32> = RandomWheel::new();
+    /// rw.reserve(20);
+    ///
+    /// assert_eq!(rw.len(), 0);
+    /// ```
     pub fn reserve(&mut self, additional: usize) {
         self.cards.reserve(additional);
     }
 
     /// Returns the number of elements the RandomWheel can hold without reallocating.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let rw: RandomWheel<i32> = RandomWheel::new();
+    ///
+    /// println!("actual capacity: {}", rw.capacity());
+    /// ```
     pub fn capacity(&self) -> usize {
         self.cards.capacity()
     }
 
     /// returns the number of elements in the wheel.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// assert_eq!(rw.len(), 0);
+    ///
+    /// rw.push(1., 20);
+    /// rw.push(1., 5);
+    /// rw.push(1., 1);
+    ///
+    /// assert_eq!(rw.len(), 3);
+    /// ```
     pub fn len(&self) -> usize {
         self.cards.len()
     }
 
     /// remove all elements in this wheel.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 20);
+    /// rw.push(1., 5);
+    /// rw.push(1., 1);
+    ///
+    /// assert_eq!(rw.len(), 3);
+    ///
+    /// rw.clear();
+    ///
+    /// assert_eq!(rw.len(), 0);
+    /// ```
     pub fn clear(&mut self) {
         self.cards.clear()
     }
 
     /// returns `true` if this wheel is empty else return `false`.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// assert_eq!(rw.is_empty(), true);
+    ///
+    /// rw.push(1., 20);
+    /// rw.push(1., 5);
+    /// rw.push(1., 1);
+    ///
+    /// assert_eq!(rw.is_empty(), false);
+    /// ```
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
 
     /// add an element associated with a probability.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 20);
+    /// rw.push(1., 5);
+    /// rw.push(1., 1);
+    ///
+    /// assert_eq!(rw.len(), 3);
+    /// ```
     pub fn push(&mut self, proba: f32, data: T) {
         // can be done: proba even then push_back, odd then push_front
         self.cards.push_back((proba, data));
@@ -74,6 +170,19 @@ impl<T> RandomWheel<T> {
     }
 
     /// returns total of luck you pushed.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1.5, 20);
+    /// rw.push(2., 5);
+    /// rw.push(3., 1);
+    ///
+    /// assert_eq!(rw.proba_sum(), 6.5);
+    /// ```
     pub fn proba_sum(&self) -> f32 {
         self.proba_sum
     }
@@ -102,6 +211,18 @@ impl<T> RandomWheel<T> {
     }
 
     /// returns a ref to the randomly peeked element.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 20);
+    ///
+    /// assert_eq!(rw.peek(), Some(&20));
+    /// assert_eq!(rw.peek(), Some(&20));
+    /// ```
     pub fn peek(&self) -> Option<&T> {
         if let Some(index) = self.get_random_index() {
             if let Some(&(_, ref data)) = self.cards.get(index) {
@@ -113,6 +234,22 @@ impl<T> RandomWheel<T> {
     }
 
     /// removes a randomly peeked element and return it.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 20);
+    ///
+    /// assert_eq!(rw.peek(), Some(&20));
+    /// assert_eq!(rw.pop(), Some(20));
+    ///
+    /// // once you pop the value, it doesn't exist anymore
+    /// assert_eq!(rw.peek(), None);
+    /// assert_eq!(rw.pop(), None);
+    /// ```
     pub fn pop(&mut self) -> Option<T> {
         if let Some(index) = self.get_random_index() {
             if let Some((proba, data)) = self.cards.remove(index) {
