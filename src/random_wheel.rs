@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 extern crate rand;
+
 use pack::Pack;
 use std::collections::BTreeSet;
-use self::rand::{thread_rng, Rng};
+use rand::{thread_rng, Rng};
 
 pub struct RandomWheel<T: Clone> {
     /// the sum of all probabilities added
@@ -44,6 +45,12 @@ impl<T: Clone> RandomWheel<T> {
         self.sum_proba += proba;
     }
 
+    /// add a pack
+    pub fn add_pack(&mut self, pack: Pack<T>) {
+        self.sum_proba += pack.proba;
+        self.cards.insert(pack);
+    }
+
     /// return total of luck you add with push
     pub fn sum_proba(&self) -> f32 {
         self.sum_proba
@@ -59,10 +66,10 @@ impl<T: Clone> RandomWheel<T> {
 
     /// return a ref to the randomly peeked element
     pub fn peek(&self) -> Option<&T> {
-		match self.get_pack() {
-			Some(p) => Some(&p.data),
-			None => None
-		}
+        match self.get_pack() {
+            Some(p) => Some(&p.data),
+            None => None
+        }
     }
 
     // get a random pack from the BTreeSet
@@ -81,15 +88,38 @@ impl<T: Clone> RandomWheel<T> {
 
     /// Removes a randomly peeked element and return it
     pub fn pop(&mut self) -> Option<T> {
-		let mut pack: Pack<T>;
-		if let Some(p) = self.get_pack() {
-			pack = Pack::new(p.proba, p.data.clone());
-		}
-		else {
-			return None;
-		}
-		self.sum_proba -= pack.proba;
-		self.cards.remove(&pack);
-		Some(pack.data)
+        let mut pack: Pack<T>;
+        if let Some(p) = self.get_pack() {
+            pack = Pack::new(p.proba, p.data.clone());
+        }
+        else {
+            return None;
+        }
+        self.sum_proba -= pack.proba;
+        self.cards.remove(&pack);
+        Some(pack.data)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn simple_tests() {
+        let mut rw: RandomWheel<String> = RandomWheel::new();
+        rw.push(5., "testing".to_string());
+        assert_eq!(rw.len(), 1);
+        assert_eq!(rw.sum_proba(), 5.);
+        assert_eq!(rw.peek(), Some(&"testing".to_string()));
+        assert_eq!(rw.pop(), Some("testing".to_string()));
+
+        rw.push(12., "another".to_string());
+        rw.push(7., "one_more".to_string());
+        assert_eq!(rw.len(), 2);
+        assert_eq!(rw.sum_proba(), 19.);
+        rw.pop();
+        rw.pop();
+        assert_eq!(rw.len(), 0);
     }
 }
