@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 18:57:51 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 22:02:31 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@ use std::collections::VecDeque;
 use self::rand::{thread_rng, Rng};
 
 /// a little implementation of a random-wheel.
-/// https://en.wikipedia.org/wiki/Fitness_proportionate_selection
 pub struct RandomWheel<T> {
     /// the sum of all probabilities in this wheel.
     proba_sum: f32,

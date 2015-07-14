@@ -6,11 +6,12 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 17:51:14 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 22:02:40 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
+//! https://en.wikipedia.org/wiki/Fitness_proportionate_selection
 //!
 //! # Examples
 //!
