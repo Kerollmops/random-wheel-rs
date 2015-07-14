@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/13 19:29:19 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 18:20:12 by crenault         ###   ########.fr       */
+/*   Updated: 2015/07/14 18:23:36 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ fn check_probability() {
     }
 
     // settings
-    let margin_of_error = 0.12;
-    let max_bound = 1. - margin_of_error;
-    let min_bound = 1. + margin_of_error;
+    let margin_of_error = 0.20;
+    let max_bound = 1. + margin_of_error;
+    let min_bound = 1. - margin_of_error;
 
     // test
     for x in numbers.iter() {
         let it = total.iter().filter(|&a| a == &Some(&x));
         let proba = it.count() as f32 / total.len() as f32 * numbers.len() as f32;
-        assert!(proba <= min_bound && proba >= max_bound,
+        assert!(proba <= max_bound && proba >= min_bound,
             "proba: {}, max bound: {}, min bound: {}", proba, max_bound, min_bound);
     }
 }
