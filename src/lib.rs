@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lib.rs                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/10/21 22:38:20 by crenault         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 //! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
 //! https://wikipedia.org/wiki/Fitness_proportionate_selection
 //!
