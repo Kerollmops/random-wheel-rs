@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:18:06 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 22:45:40 by crenault         ###   ########.fr       */
+/*   Updated: 2015/10/21 22:29:16 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ impl<T> RandomWheel<T> {
     /// ```
     /// use random_wheel::RandomWheel;
     ///
-    /// let rw: RandomWheel<i32> = RandomWheel::new();
+    /// let rw: RandomWheel<u8> = RandomWheel::new();
     /// ```
     pub fn new() -> RandomWheel<T> {
         RandomWheel{
@@ -89,7 +89,7 @@ impl<T> RandomWheel<T> {
     /// use random_wheel::RandomWheel;
     ///
     /// let numbers: Vec<_> = (0..20).collect();
-    /// let mut rw: RandomWheel<i32> = RandomWheel::with_capacity(numbers.len());
+    /// let mut rw: RandomWheel<u8> = RandomWheel::with_capacity(numbers.len());
     ///
     /// assert_eq!(rw.len(), 0);
     /// ```
@@ -107,7 +107,7 @@ impl<T> RandomWheel<T> {
     /// ```
     /// use random_wheel::RandomWheel;
     ///
-    /// let mut rw: RandomWheel<i32> = RandomWheel::new();
+    /// let mut rw: RandomWheel<u8> = RandomWheel::new();
     /// rw.reserve(20);
     ///
     /// assert_eq!(rw.len(), 0);
@@ -122,7 +122,7 @@ impl<T> RandomWheel<T> {
     /// ```
     /// use random_wheel::RandomWheel;
     ///
-    /// let rw: RandomWheel<i32> = RandomWheel::new();
+    /// let rw: RandomWheel<u8> = RandomWheel::new();
     ///
     /// println!("actual capacity: {}", rw.capacity());
     /// ```
@@ -140,9 +140,9 @@ impl<T> RandomWheel<T> {
     ///
     /// assert_eq!(rw.len(), 0);
     ///
-    /// rw.push(1., 20);
-    /// rw.push(1., 5);
-    /// rw.push(1., 1);
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
     ///
     /// assert_eq!(rw.len(), 3);
     /// ```
@@ -158,9 +158,9 @@ impl<T> RandomWheel<T> {
     ///
     /// let mut rw = RandomWheel::new();
     ///
-    /// rw.push(1., 20);
-    /// rw.push(1., 5);
-    /// rw.push(1., 1);
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
     ///
     /// assert_eq!(rw.len(), 3);
     ///
@@ -182,9 +182,9 @@ impl<T> RandomWheel<T> {
     ///
     /// assert_eq!(rw.is_empty(), true);
     ///
-    /// rw.push(1., 20);
-    /// rw.push(1., 5);
-    /// rw.push(1., 1);
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
     ///
     /// assert_eq!(rw.is_empty(), false);
     /// ```
@@ -200,9 +200,9 @@ impl<T> RandomWheel<T> {
     ///
     /// let mut rw = RandomWheel::new();
     ///
-    /// rw.push(1., 20);
-    /// rw.push(1., 5);
-    /// rw.push(1., 1);
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
     ///
     /// assert_eq!(rw.len(), 3);
     /// ```
@@ -220,9 +220,9 @@ impl<T> RandomWheel<T> {
     ///
     /// let mut rw = RandomWheel::new();
     ///
-    /// rw.push(1.5, 20);
-    /// rw.push(2., 5);
-    /// rw.push(3., 1);
+    /// rw.push(1.5, 'r');
+    /// rw.push(2., 'c');
+    /// rw.push(3., 'a');
     ///
     /// assert_eq!(rw.proba_sum(), 6.5);
     /// ```
@@ -261,10 +261,10 @@ impl<T> RandomWheel<T> {
     ///
     /// let mut rw = RandomWheel::new();
     ///
-    /// rw.push(1., 20);
+    /// rw.push(1., 'r');
     ///
-    /// assert_eq!(rw.peek(), Some(&20));
-    /// assert_eq!(rw.peek(), Some(&20));
+    /// assert_eq!(rw.peek(), Some(&'r'));
+    /// assert_eq!(rw.peek(), Some(&'r'));
     /// ```
     pub fn peek(&self) -> Option<&T> {
         if let Some(index) = self.get_random_index() {
@@ -284,10 +284,10 @@ impl<T> RandomWheel<T> {
     ///
     /// let mut rw = RandomWheel::new();
     ///
-    /// rw.push(1., 20);
+    /// rw.push(1., 'r');
     ///
-    /// assert_eq!(rw.peek(), Some(&20));
-    /// assert_eq!(rw.pop(), Some(20));
+    /// assert_eq!(rw.peek(), Some(&'r'));
+    /// assert_eq!(rw.pop(), Some('r'));
     ///
     /// // once you pop the value, it doesn't exist anymore
     /// assert_eq!(rw.peek(), None);

@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/13 19:29:19 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 23:05:45 by crenault         ###   ########.fr       */
+/*   Updated: 2015/10/21 22:32:25 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,19 @@ mod tests {
 
     #[test]
     fn test_peek_and_pop_to_empty() {
-        let a = 20;
+
+        let value = 'r';
         let mut wheel = RandomWheel::new();
 
-        wheel.push(1., a);
-        assert_eq!(wheel.peek(), Some(&a));
-        assert_eq!(wheel.pop(), Some(a));
+        wheel.push(1., value);
+        assert_eq!(wheel.peek(), Some(&value));
+        assert_eq!(wheel.pop(), Some(value));
         assert_eq!(wheel.pop(), None);
     }
 
     #[test]
     fn test_check_probability() {
+
         let numbers: Vec<_> = (0..10).collect();
         let mut wheel = RandomWheel::with_capacity(numbers.len());
 
@@ -60,6 +62,7 @@ mod tests {
 
         // test
         for x in numbers.iter() {
+
             let it = total.iter().filter(|&a| a == &Some(&x));
             let proba = it.count() as f32 / total.len() as f32 * numbers.len() as f32;
             assert!(proba <= max_bound && proba >= min_bound,
@@ -69,13 +72,14 @@ mod tests {
 
     #[test]
     fn test_clear() {
+
         let mut wheel = RandomWheel::new();
 
-        wheel.push(1., 5);
-        wheel.push(1., 3);
-        wheel.push(1., 10);
-        wheel.push(1., 21);
-        wheel.push(1., 0);
+        wheel.push(1., 'a');
+        wheel.push(1., 'c');
+        wheel.push(1., 'f');
+        wheel.push(1., 'r');
+        wheel.push(1., 'z');
         assert_eq!(wheel.len(), 5);
 
         wheel.clear();
@@ -86,13 +90,14 @@ mod tests {
 
     #[test]
     fn test_proba_sum() {
+
         let mut wheel = RandomWheel::new();
 
-        wheel.push(1., 5);
-        wheel.push(0.5, 3);
-        wheel.push(1.5, 10);
-        wheel.push(3., 21);
-        wheel.push(5.5, 0);
+        wheel.push(1., 'a');
+        wheel.push(0.5, 'c');
+        wheel.push(1.5, 'f');
+        wheel.push(3., 'r');
+        wheel.push(5.5, 'z');
         assert_eq!(wheel.proba_sum(), 11.5);
     }
 

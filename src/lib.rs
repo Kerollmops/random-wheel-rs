@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/07/08 21:14:36 by crenault          #+#    #+#             */
-/*   Updated: 2015/07/14 22:14:35 by crenault         ###   ########.fr       */
+/*   Updated: 2015/10/21 22:25:55 by crenault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 //! ```
 //! use random_wheel::RandomWheel;
 //!
-//! let rw: RandomWheel<i32> = RandomWheel::new();
+//! let rw: RandomWheel<u8> = RandomWheel::new();
 //! ```
 //!
 //! You can `push` values onto the random-wheel (which will grow the wheel as needed):
@@ -32,10 +32,10 @@
 //!
 //! let mut rw = RandomWheel::new();
 //!
-//! rw.push(5., 1);
-//! rw.push(1., 2);
+//! rw.push(5., 'a');
+//! rw.push(1., 'b');
 //!
-//! // you have 5 chances out of 6 to hit 1
+//! // you have 5 chances out of 6 to hit 'a'
 //! let one_or_two = rw.pop();
 //! ```
 
