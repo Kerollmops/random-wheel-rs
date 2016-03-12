@@ -39,7 +39,7 @@ mod tests {
         }
 
         let mut total = Vec::new();
-        for _ in (0..5_000) {
+        for _ in 0..5_000 {
             total.push(wheel.peek());
         }
 

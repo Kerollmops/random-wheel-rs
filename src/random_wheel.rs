@@ -1,6 +1,6 @@
 extern crate rand;
 use std::collections::VecDeque;
-use self::rand::{ thread_rng, Rng };
+use self::rand::Rng;
 
 /// a little implementation of a random-wheel.
 pub struct RandomWheel<T> {
@@ -19,7 +19,38 @@ impl<T: Clone> Clone for RandomWheel<T> {
     }
 }
 
+/*impl<T> Iterator for RandomWheel<T> {
+
+    // we will be counting with usize
+    type Item = (f32, T);
+
+    // next() is the only required method
+    fn next(&mut self) -> Option<(f32, T)> {
+        self.cards.into_iter().next()
+    }
+}*/
+
 impl<T> RandomWheel<T> {
+    /// create a new random-wheel from vector.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let numbers: Vec<_> = (0..20).collect();
+    ///
+    /// // default probability is set to 1.0 for each element
+    /// let rw: RandomWheel<u8> = RandomWheel::from_vec(numbers);
+    /// ```
+    pub fn from_vec(vector: Vec<T>) -> RandomWheel<T> {
+
+        RandomWheel {
+
+            proba_sum: vector.len() as f32,
+            cards: vector.into_iter().map(|x| (1.0, x)).collect()
+        }
+    }
+
     /// create a new empty random-wheel.
     /// # Example
     ///
@@ -29,7 +60,9 @@ impl<T> RandomWheel<T> {
     /// let rw: RandomWheel<u8> = RandomWheel::new();
     /// ```
     pub fn new() -> RandomWheel<T> {
-        RandomWheel{
+
+        RandomWheel {
+
             proba_sum: 0.,
             cards: VecDeque::new()
         }
@@ -47,7 +80,9 @@ impl<T> RandomWheel<T> {
     /// assert_eq!(rw.len(), 0);
     /// ```
     pub fn with_capacity(n: usize) -> RandomWheel<T> {
-        RandomWheel{
+
+        RandomWheel {
+
             proba_sum: 0.,
             cards: VecDeque::with_capacity(n)
         }
@@ -160,7 +195,8 @@ impl<T> RandomWheel<T> {
     /// assert_eq!(rw.len(), 3);
     /// ```
     pub fn push(&mut self, proba: f32, data: T) {
-        // can be done: proba even then push_back, odd then push_front
+
+        assert!(proba > 0.0, "proba {} is lower or equal to zero!", proba);
         self.cards.push_back((proba, data));
         self.proba_sum += proba;
     }
@@ -185,7 +221,9 @@ impl<T> RandomWheel<T> {
 
     /// returns a random distance to browser between 0 and the probabilities sum.
     fn gen_random_dist(&self) -> f32 {
+
         match self.proba_sum() {
+
             sum if sum > 0. => rand::thread_rng().gen_range(0., sum),
             _               => 0.
         }
@@ -193,9 +231,12 @@ impl<T> RandomWheel<T> {
 
     /// returns a random index in self.cards.
     fn get_random_index(&self) -> Option<usize> {
+
         if self.is_empty() == false {
+
             let mut dist = self.gen_random_dist();
             for (id, &(ref proba, _)) in self.cards.iter().enumerate() {
+
                 dist -= *proba;
                 if dist <= 0. {
                     return Some(id);
@@ -220,7 +261,9 @@ impl<T> RandomWheel<T> {
     /// assert_eq!(rw.peek(), Some(&'r'));
     /// ```
     pub fn peek(&self) -> Option<&T> {
+
         if let Some(index) = self.get_random_index() {
+
             if let Some(&(_, ref data)) = self.cards.get(index) {
                 Some(data)
             }
@@ -247,8 +290,11 @@ impl<T> RandomWheel<T> {
     /// assert_eq!(rw.pop(), None);
     /// ```
     pub fn pop(&mut self) -> Option<T> {
+
         if let Some(index) = self.get_random_index() {
+
             if let Some((proba, data)) = self.cards.remove(index) {
+
                 self.proba_sum -= proba;
                 Some(data)
             }
