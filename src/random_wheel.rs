@@ -272,6 +272,89 @@ impl<T> RandomWheel<T> {
         else { None }
     }
 
+    /// returns a ref to the randomly peeked element.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    ///
+    /// match rw.peek_mut() {
+    ///     Some(val) => *val = 'b',
+    ///     None => {}
+    /// }
+    ///
+    /// assert_eq!(rw.peek(), Some(&'b'));
+    /// ```
+    pub fn peek_mut(&mut self) -> Option<&mut T> {
+
+        if let Some(index) = self.get_random_index() {
+
+            if let Some(&mut (_, ref mut data)) = self.cards.get_mut(index) {
+                Some(data)
+            }
+            else { None }
+        }
+        else { None }
+    }
+
+    /// returns a ref to the randomly peeked element.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    ///
+    /// assert_eq!(rw.peek_with_proba(), Some((1.0, &'r')));
+    /// assert_eq!(rw.peek_with_proba(), Some((1.0, &'r')));
+    /// ```
+    pub fn peek_with_proba(&self) -> Option<(f32, &T)> {
+
+        if let Some(index) = self.get_random_index() {
+
+            if let Some(&(proba, ref data)) = self.cards.get(index) {
+                Some((proba, data))
+            }
+            else { None }
+        }
+        else { None }
+    }
+
+    /// returns a ref to the randomly peeked element.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    ///
+    /// match rw.peek_mut_with_proba() {
+    ///     Some((_, val)) => *val = 'b',
+    ///     None => {}
+    /// }
+    ///
+    /// assert_eq!(rw.peek_with_proba(), Some((1.0, &'b')));
+    /// ```
+    pub fn peek_mut_with_proba(&mut self) -> Option<(f32, &mut T)> {
+
+        if let Some(index) = self.get_random_index() {
+
+            if let Some(&mut (proba, ref mut data)) = self.cards.get_mut(index) {
+                Some((proba, data))
+            }
+            else { None }
+        }
+        else { None }
+    }
+
     /// removes a randomly peeked element and return it.
     /// # Example
     ///
@@ -297,6 +380,37 @@ impl<T> RandomWheel<T> {
 
                 self.proba_sum -= proba;
                 Some(data)
+            }
+            else { None }
+        }
+        else { None }
+    }
+
+    /// removes a randomly peeked element and return it.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    ///
+    /// assert_eq!(rw.peek(), Some(&'r'));
+    /// assert_eq!(rw.pop(), Some('r'));
+    ///
+    /// // once you pop the value, it doesn't exist anymore
+    /// assert_eq!(rw.peek(), None);
+    /// assert_eq!(rw.pop(), None);
+    /// ```
+    pub fn pop_with_proba(&mut self) -> Option<(f32, T)> {
+
+        if let Some(index) = self.get_random_index() {
+
+            if let Some((proba, data)) = self.cards.remove(index) {
+
+                self.proba_sum -= proba;
+                Some((proba, data))
             }
             else { None }
         }
