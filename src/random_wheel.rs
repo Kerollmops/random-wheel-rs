@@ -396,12 +396,12 @@ impl<T> RandomWheel<T> {
     ///
     /// rw.push(1., 'r');
     ///
-    /// assert_eq!(rw.peek(), Some(&'r'));
-    /// assert_eq!(rw.pop(), Some('r'));
+    /// assert_eq!(rw.pop_with_proba(), Some((1.0, 'r')));
     ///
     /// // once you pop the value, it doesn't exist anymore
     /// assert_eq!(rw.peek(), None);
     /// assert_eq!(rw.pop(), None);
+    /// assert_eq!(rw.pop_with_proba(), None);
     /// ```
     pub fn pop_with_proba(&mut self) -> Option<(f32, T)> {
 
