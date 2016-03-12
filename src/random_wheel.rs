@@ -1,5 +1,6 @@
 extern crate rand;
 use std::collections::VecDeque;
+use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
 use self::rand::Rng;
 
 /// a little implementation of a random-wheel.
@@ -19,16 +20,19 @@ impl<T: Clone> Clone for RandomWheel<T> {
     }
 }
 
-/*impl<T> Iterator for RandomWheel<T> {
+// into_iter(), which iterates over T.
+impl<T> IntoIterator for RandomWheel<T> {
 
-    // we will be counting with usize
     type Item = (f32, T);
+    type IntoIter = IntoIter<(f32, T)>;
 
-    // next() is the only required method
-    fn next(&mut self) -> Option<(f32, T)> {
-        self.cards.into_iter().next()
+    /// Creates a consuming iterator, that is, one that moves each value out of
+    /// the randomWheel (from start to end).
+    #[inline]
+    fn into_iter(self) -> IntoIter<(f32, T)> {
+        self.cards.into_iter()
     }
-}*/
+}
 
 impl<T> RandomWheel<T> {
     /// create a new random-wheel from vector.
@@ -178,6 +182,51 @@ impl<T> RandomWheel<T> {
     /// ```
     pub fn is_empty(&self) -> bool {
         self.len() == 0
+    }
+
+    /// Returns an iterator over the slice.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
+    ///
+    /// let mut iter = rw.iter();
+    ///
+    /// assert_eq!(iter.next(), Some(&(1.0, 'r')));
+    /// assert_eq!(iter.next(), Some(&(1.0, 'c')));
+    /// assert_eq!(iter.next(), Some(&(1.0, 'a')));
+    /// assert_eq!(iter.next(), None);
+    /// ```
+    pub fn iter(&self) -> Iter<(f32, T)> {
+        self.cards.iter()
+    }
+
+    /// Returns an iterator that allows modifying each value.
+    /// # Example
+    ///
+    /// ```
+    /// use random_wheel::RandomWheel;
+    ///
+    /// let mut rw = RandomWheel::new();
+    ///
+    /// rw.push(1., 'r');
+    /// rw.push(1., 'c');
+    /// rw.push(1., 'a');
+    ///
+    /// for a in &mut rw.iter_mut() {
+    ///     a.1 = 'm';
+    /// }
+    ///
+    /// assert_eq!(rw.peek(), Some(&'m'));
+    /// ```
+    pub fn iter_mut(&mut self) -> IterMut<(f32, T)> {
+        self.cards.iter_mut()
     }
 
     /// add an element associated with a probability.
