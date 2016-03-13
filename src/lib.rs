@@ -1,6 +1,8 @@
 //! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
 //! https://wikipedia.org/wiki/Fitness_proportionate_selection
 //!
+//! ![Fitness proportionate selection](https://upload.wikimedia.org/wikipedia/commons/2/2a/Fitness_proportionate_selection_example.png)
+//!
 //! # Usage
 //!
 //! You can get this package on the
