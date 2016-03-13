@@ -252,6 +252,17 @@ impl<T> RandomWheel<T> {
         self.proba_sum += proba;
     }
 
+    /// Will recompute the probabilities sum
+    /// use it when you iterate through this vector and change proba values
+    pub fn compute_proba_sum(&mut self) {
+
+        let mut sum = 0.0;
+        for &(proba, _) in self.cards.iter() {
+            sum += proba;
+        }
+        self.proba_sum = sum;
+    }
+
     /// returns total of luck you pushed.
     /// # Example
     ///
@@ -273,7 +284,7 @@ impl<T> RandomWheel<T> {
     /// returns a random distance to browser between 0 and the probabilities sum.
     fn gen_random_dist(&self) -> f32 {
 
-        match self.proba_sum() {
+        match self.proba_sum {
 
             sum if sum > 0. => rand::thread_rng().gen_range(0., sum),
             _               => 0.
