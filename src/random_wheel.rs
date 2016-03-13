@@ -1,4 +1,5 @@
 extern crate rand;
+use std::iter::repeat;
 use std::collections::VecDeque;
 use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
 use self::rand::Rng;
@@ -20,7 +21,6 @@ impl<T: Clone> Clone for RandomWheel<T> {
     }
 }
 
-// into_iter(), which iterates over T.
 impl<T> IntoIterator for RandomWheel<T> {
 
     type Item = (f32, T);
@@ -51,7 +51,7 @@ impl<T> RandomWheel<T> {
         RandomWheel {
 
             proba_sum: vector.len() as f32,
-            cards: vector.into_iter().map(|x| (1.0, x)).collect()
+            cards: repeat(1.0).into_iter().zip(vector).collect()
         }
     }
 
@@ -92,7 +92,8 @@ impl<T> RandomWheel<T> {
         }
     }
 
-    /// Reserves capacity for at least `additional` more elements to be inserted in the given `Ringbuf`.
+    /// Reserves capacity for at least `additional` more elements to be inserted
+    /// in the given `Ringbuf`.
     /// The collection may reserve more space to avoid frequent reallocations.
     /// # Example
     ///
@@ -108,7 +109,8 @@ impl<T> RandomWheel<T> {
         self.cards.reserve(additional);
     }
 
-    /// Returns the number of elements the RandomWheel can hold without reallocating.
+    /// Returns the number of elements the RandomWheel can hold without
+    /// reallocating.
     /// # Example
     ///
     /// ```
