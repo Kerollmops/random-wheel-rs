@@ -1,6 +1,10 @@
 //! A Little implementation of the random-wheel principle, `RandomWheel<T>`.
 //! https://wikipedia.org/wiki/Fitness_proportionate_selection
 //!
+//! # Usage
+//!
+//! You can get this package form: (https://crates.io/crates/random-wheel)[crates.io/random-wheel]
+//!
 //! # Examples
 //!
 //! You can explicitly create a `RandomWheel<T>` with `new()`:

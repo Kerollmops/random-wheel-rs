@@ -1,7 +1,7 @@
 [package]
 name = "random-wheel"
-version = "0.2.8"
-authors = ["Kerosene2000 <renault.cle@gmail.com>"]
+version = "0.2.9"
+authors = ["Kero <renault.cle@gmail.com>"]
 documentation = "https://kerosene2000.github.io/random-wheel-rs-doc/random-wheel-rs/random_wheel/index.html"
 description = "A little implementation of random wheels (used in genetic algorithm for selection)"
 license = "AML"
