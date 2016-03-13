@@ -3,7 +3,7 @@
 //!
 //! # Usage
 //!
-//! You can get this package form: (https://crates.io/crates/random-wheel)[crates.io/random-wheel]
+//! You can get this package from: [crates.io/random-wheel](https://crates.io/crates/random-wheel).
 //!
 //! # Examples
 //!
