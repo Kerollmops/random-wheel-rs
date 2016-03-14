@@ -1,5 +1,4 @@
 extern crate rand;
-use std::f32;
 use std::iter::repeat;
 use std::collections::VecDeque;
 use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
@@ -251,7 +250,7 @@ impl<T> RandomWheel<T> {
         assert!(proba > 0.0, "proba {} is lower or equal to zero!", proba);
         self.cards.push_back((proba, data));
         self.proba_sum += proba;
-        if self.proba_sum == f32::INFINITY {
+        if self.proba_sum.is_infinite() {
             panic!("Probability sum reached an Inf value!");
         }
     }
@@ -267,7 +266,7 @@ impl<T> RandomWheel<T> {
             sum += proba;
         }
         self.proba_sum = sum;
-        if self.proba_sum == f32::INFINITY {
+        if self.proba_sum.is_infinite() {
             panic!("Probability sum reached an Inf value!");
         }
     }
