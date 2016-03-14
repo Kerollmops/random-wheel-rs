@@ -1,4 +1,5 @@
 extern crate rand;
+use std::f32;
 use std::iter::repeat;
 use std::collections::VecDeque;
 use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
@@ -250,6 +251,9 @@ impl<T> RandomWheel<T> {
         assert!(proba > 0.0, "proba {} is lower or equal to zero!", proba);
         self.cards.push_back((proba, data));
         self.proba_sum += proba;
+        if self.proba_sum == f32::INFINITY {
+            panic!("Probability sum reached an Inf value!");
+        }
     }
 
     /// Will recompute the probabilities sum
@@ -258,9 +262,14 @@ impl<T> RandomWheel<T> {
 
         let mut sum = 0.0;
         for &(proba, _) in self.cards.iter() {
+
+            assert!(proba > 0.0, "proba {} is lower or equal to zero!", proba);
             sum += proba;
         }
         self.proba_sum = sum;
+        if self.proba_sum == f32::INFINITY {
+            panic!("Probability sum reached an Inf value!");
+        }
     }
 
     /// returns total of luck you pushed.
