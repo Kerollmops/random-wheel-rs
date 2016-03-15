@@ -343,7 +343,7 @@ impl<T> RandomWheel<T> {
         else { None }
     }
 
-    /// returns a ref to the randomly peeked element with
+    /// returns a mutable ref to the randomly peeked element with
     /// it's probality to be peeked.
     /// # Example
     ///
