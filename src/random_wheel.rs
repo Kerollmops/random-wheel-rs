@@ -317,7 +317,8 @@ impl<T> RandomWheel<T> {
         else { None }
     }
 
-    /// returns a ref to the randomly peeked element.
+    /// returns a ref to the randomly peeked element with
+    /// it's probality to be peeked.
     /// # Example
     ///
     /// ```
@@ -342,7 +343,8 @@ impl<T> RandomWheel<T> {
         else { None }
     }
 
-    /// returns a ref to the randomly peeked element.
+    /// returns a ref to the randomly peeked element with
+    /// it's probality to be peeked.
     /// # Example
     ///
     /// ```
@@ -371,7 +373,8 @@ impl<T> RandomWheel<T> {
         else { None }
     }
 
-    /// removes a randomly peeked element and return it.
+    /// removes a randomly peeked element and return it with
+    /// it's probality to be peeked.
     /// # Example
     ///
     /// ```
