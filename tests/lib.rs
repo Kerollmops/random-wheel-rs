@@ -22,40 +22,9 @@ mod tests {
         let mut wheel = RandomWheel::new();
 
         wheel.push(1., value);
-        assert_eq!(wheel.peek(), Some(&value));
-        assert_eq!(wheel.pop(), Some(value));
+        assert_eq!(wheel.peek(), Some((1., &value)));
+        assert_eq!(wheel.pop(), Some((1., value)));
         assert_eq!(wheel.pop(), None);
-    }
-
-    #[test]
-    fn test_check_probability() {
-
-        let numbers: Vec<_> = (0..10).collect();
-        let mut wheel = RandomWheel::with_capacity(numbers.len());
-
-        // need: wheel.push_vec(proba: f32, vec: Vec<T>);
-        for x in numbers.iter() {
-            wheel.push(1., x);
-        }
-
-        let mut total = Vec::new();
-        for _ in 0..5_000 {
-            total.push(wheel.peek());
-        }
-
-        // settings
-        let margin_of_error = 0.20;
-        let max_bound = 1. + margin_of_error;
-        let min_bound = 1. - margin_of_error;
-
-        // test
-        for x in numbers.iter() {
-
-            let it = total.iter().filter(|&a| a == &Some(&x));
-            let proba = it.count() as f32 / total.len() as f32 * numbers.len() as f32;
-            assert!(proba <= max_bound && proba >= min_bound,
-                "proba: {}, max bound: {}, min bound: {}", proba, max_bound, min_bound);
-        }
     }
 
     #[test]
