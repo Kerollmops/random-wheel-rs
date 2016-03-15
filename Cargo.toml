@@ -1,6 +1,6 @@
 [package]
 name = "random-wheel"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Kero <renault.cle@gmail.com>"]
 documentation = "https://kerosene2000.github.io/random-wheel-rs-doc/random-wheel-rs/random_wheel/index.html"
 description = "A little implementation of random wheels (used in genetic algorithm for selection)"
