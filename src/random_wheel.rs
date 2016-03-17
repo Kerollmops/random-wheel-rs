@@ -1,7 +1,7 @@
 extern crate rand;
 use std::iter::repeat;
 use std::collections::VecDeque;
-use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
+// use std::collections::vec_deque::{ IntoIter, Iter, IterMut };
 use self::rand::Rng;
 
 /// a little implementation of a random-wheel.
@@ -13,7 +13,9 @@ pub struct RandomWheel<T> {
 }
 
 impl<T: Clone> Clone for RandomWheel<T> {
+
     fn clone(&self) -> RandomWheel<T> {
+
         RandomWheel{
             proba_sum: self.proba_sum,
             cards: self.cards.clone()
@@ -21,16 +23,60 @@ impl<T: Clone> Clone for RandomWheel<T> {
     }
 }
 
+// impl<T> IntoIterator for RandomWheel<T> {
+
+//     type Item = (f32, T);
+//     type IntoIter = IntoIter<(f32, T)>;
+
+//     /// Creates a consuming iterator, that is, one that moves each value out of
+//     /// the randomWheel (from start to end).
+//     #[inline]
+//     fn into_iter(self) -> IntoIter<(f32, T)> {
+//         self.cards.into_iter()
+//     }
+// }
+
+pub struct ProbaModifier<T> {
+    container: RandomWheel<T>, // need &'a mut !!!
+    position: usize
+}
+
+impl<T> ProbaModifier<T> {
+
+    pub fn read(&self) -> &(f32, T) {
+        &self.container.cards[self.position]
+    }
+
+    pub fn update(&mut self, new_proba: f32) {
+
+        let card = &mut self.container.cards[self.position];
+        self.container.proba_sum += card.0 - new_proba;
+        card.0 = new_proba;
+    }
+}
+
 impl<T> IntoIterator for RandomWheel<T> {
 
-    type Item = (f32, T);
-    type IntoIter = IntoIter<(f32, T)>;
+    type Item = ProbaModifier<T>;
+    type IntoIter = IntoIter<T>;
 
-    /// Creates a consuming iterator, that is, one that moves each value out of
-    /// the randomWheel (from start to end).
-    #[inline]
-    fn into_iter(self) -> IntoIter<(f32, T)> {
-        self.cards.into_iter()
+    fn into_iter(self) -> IntoIter<T> {
+        IntoIter(ProbaModifier{
+            container: self,
+            position: 0
+        })
+    }
+}
+
+pub struct IntoIter<T>(ProbaModifier<T>);
+
+impl<T> Iterator for IntoIter<T> {
+
+    type Item = ProbaModifier<T>;
+
+    fn next(&mut self) -> Option<ProbaModifier<T>> {
+        // Some(self.0)
+        None
     }
 }
 
@@ -186,50 +232,50 @@ impl<T> RandomWheel<T> {
         self.len() == 0
     }
 
-    /// Returns an iterator over the slice.
-    /// # Example
-    ///
-    /// ```
-    /// use random_wheel::RandomWheel;
-    ///
-    /// let mut rw = RandomWheel::new();
-    ///
-    /// rw.push(1., 'r');
-    /// rw.push(1., 'c');
-    /// rw.push(1., 'a');
-    ///
-    /// let mut iter = rw.iter();
-    ///
-    /// assert_eq!(iter.next(), Some(&(1.0, 'r')));
-    /// assert_eq!(iter.next(), Some(&(1.0, 'c')));
-    /// assert_eq!(iter.next(), Some(&(1.0, 'a')));
-    /// assert_eq!(iter.next(), None);
-    /// ```
-    pub fn iter(&self) -> Iter<(f32, T)> {
-        self.cards.iter()
-    }
+    // /// Returns an iterator over the slice.
+    // /// # Example
+    // ///
+    // /// ```
+    // /// use random_wheel::RandomWheel;
+    // ///
+    // /// let mut rw = RandomWheel::new();
+    // ///
+    // /// rw.push(1., 'r');
+    // /// rw.push(1., 'c');
+    // /// rw.push(1., 'a');
+    // ///
+    // /// let mut iter = rw.iter();
+    // ///
+    // /// assert_eq!(iter.next(), Some(&(1.0, 'r')));
+    // /// assert_eq!(iter.next(), Some(&(1.0, 'c')));
+    // /// assert_eq!(iter.next(), Some(&(1.0, 'a')));
+    // /// assert_eq!(iter.next(), None);
+    // /// ```
+    // pub fn iter(&self) -> Iter<(f32, T)> {
+    //     self.cards.iter()
+    // }
 
-    /// Returns an iterator that allows modifying each value.
-    /// # Example
-    ///
-    /// ```
-    /// use random_wheel::RandomWheel;
-    ///
-    /// let mut rw = RandomWheel::new();
-    ///
-    /// rw.push(1., 'r');
-    /// rw.push(1., 'c');
-    /// rw.push(1., 'a');
-    ///
-    /// for a in &mut rw.iter_mut() {
-    ///     a.1 = 'm';
-    /// }
-    ///
-    /// assert_eq!(rw.peek(), Some((1., &'m')));
-    /// ```
-    pub fn iter_mut(&mut self) -> IterMut<(f32, T)> {
-        self.cards.iter_mut()
-    }
+    // /// Returns an iterator that allows modifying each value.
+    // /// # Example
+    // ///
+    // /// ```
+    // /// use random_wheel::RandomWheel;
+    // ///
+    // /// let mut rw = RandomWheel::new();
+    // ///
+    // /// rw.push(1., 'r');
+    // /// rw.push(1., 'c');
+    // /// rw.push(1., 'a');
+    // ///
+    // /// for a in &mut rw.iter_mut() {
+    // ///     a.1 = 'm';
+    // /// }
+    // ///
+    // /// assert_eq!(rw.peek(), Some((1., &'m')));
+    // /// ```
+    // pub fn iter_mut(&mut self) -> IterMut<(f32, T)> {
+    //     self.cards.iter_mut()
+    // }
 
     /// add an element associated with a probability.
     /// # Example
